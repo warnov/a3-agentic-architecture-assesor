@@ -1,0 +1,36 @@
+You will receive a report of a technical meeting. From it you will give a JSON indicating whether the following workloads were applied or not, evaluating both the direct use of Azure managed services as well as the functional implementation of their concepts, even if the service itself wasn't explicitly used.
+
+If the service was directly used in Azure, the covering will be 2. If its key functionality was implemented (e.g., vector search, embedding similarity, semantic query), but the managed service was not used, the covering will be 1. If there is no evidence of the service being used nor its functionality, covering will be 0. If it cannot be determined from the transcript, covering will be -1. If the covering is 1 or 2, add an attribute called "explanation", explaining your classification decision for those cases.
+
+Here is an example of the JSON structure:
+
+[
+    {
+        "name": "Azure AI Language",
+        "covering": 2,
+        "explanation": "Se utilizó LUIS para el procesamiento del lenguaje natural en el chatbot."
+    },
+    {
+        "name": "Azure AI Translator",
+        "covering": 0
+    }
+]
+
+The workloads to evaluate are:
+
+Well Architected Framework
+Azure AI Vision
+Azure AI Speech
+Azure AI Language
+Azure AI Translator
+Azure OpenAI Service
+Azure AI Search
+Azure AI Document Intelligence
+Azure Content Safety
+Azure Machine Learning Studio
+Prompt Flow
+GenAI or other prebuilt AI Models
+Responsible AI
+MLOps & Monitoring
+Custom Copilot
+Prompt Engineering

@@ -29,46 +29,31 @@
         private void InitializeComponent()
         {
             RtbMeetingReport = new RichTextBox();
-            BtnSend = new Button();
-            RtbInput = new RichTextBox();
             RtbTranscript = new RichTextBox();
             label1 = new Label();
             BtnProcessTranscript = new Button();
-            RtbCategorization = new RichTextBox();
+            LbxWellCovered = new ListBox();
+            LbxNotCovered = new ListBox();
+            label2 = new Label();
+            label3 = new Label();
+            label5 = new Label();
+            BtnClassifyTopics = new Button();
             SuspendLayout();
             // 
             // RtbMeetingReport
             // 
             RtbMeetingReport.AcceptsTab = true;
-            RtbMeetingReport.Location = new Point(395, 32);
+            RtbMeetingReport.Location = new Point(277, 32);
             RtbMeetingReport.Name = "RtbMeetingReport";
-            RtbMeetingReport.Size = new Size(405, 293);
+            RtbMeetingReport.Size = new Size(262, 341);
             RtbMeetingReport.TabIndex = 0;
             RtbMeetingReport.Text = "";
-            // 
-            // BtnSend
-            // 
-            BtnSend.Location = new Point(713, 350);
-            BtnSend.Name = "BtnSend";
-            BtnSend.Size = new Size(75, 23);
-            BtnSend.TabIndex = 1;
-            BtnSend.Text = "&Send";
-            BtnSend.UseVisualStyleBackColor = true;
-            BtnSend.Click += BtnSend_Click;
-            // 
-            // RtbInput
-            // 
-            RtbInput.Location = new Point(19, 408);
-            RtbInput.Name = "RtbInput";
-            RtbInput.Size = new Size(769, 30);
-            RtbInput.TabIndex = 3;
-            RtbInput.Text = "";
             // 
             // RtbTranscript
             // 
             RtbTranscript.Location = new Point(12, 32);
             RtbTranscript.Name = "RtbTranscript";
-            RtbTranscript.Size = new Size(377, 293);
+            RtbTranscript.Size = new Size(259, 341);
             RtbTranscript.TabIndex = 4;
             RtbTranscript.Text = "";
             // 
@@ -83,7 +68,7 @@
             // 
             // BtnProcessTranscript
             // 
-            BtnProcessTranscript.Location = new Point(12, 331);
+            BtnProcessTranscript.Location = new Point(153, 404);
             BtnProcessTranscript.Name = "BtnProcessTranscript";
             BtnProcessTranscript.Size = new Size(118, 23);
             BtnProcessTranscript.TabIndex = 6;
@@ -91,25 +76,76 @@
             BtnProcessTranscript.UseVisualStyleBackColor = true;
             BtnProcessTranscript.Click += BtnProcessTranscript_Click;
             // 
-            // RtbCategorization
+            // LbxWellCovered
             // 
-            RtbCategorization.Location = new Point(806, 32);
-            RtbCategorization.Name = "RtbCategorization";
-            RtbCategorization.Size = new Size(456, 293);
-            RtbCategorization.TabIndex = 7;
-            RtbCategorization.Text = "";
+            LbxWellCovered.FormattingEnabled = true;
+            LbxWellCovered.ItemHeight = 15;
+            LbxWellCovered.Location = new Point(559, 32);
+            LbxWellCovered.Name = "LbxWellCovered";
+            LbxWellCovered.Size = new Size(221, 334);
+            LbxWellCovered.TabIndex = 7;
+            LbxWellCovered.Click += LbxWellCovered_Click;
+            // 
+            // LbxNotCovered
+            // 
+            LbxNotCovered.FormattingEnabled = true;
+            LbxNotCovered.ItemHeight = 15;
+            LbxNotCovered.Location = new Point(835, 32);
+            LbxNotCovered.Name = "LbxNotCovered";
+            LbxNotCovered.Size = new Size(249, 334);
+            LbxNotCovered.TabIndex = 9;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(277, 14);
+            label2.Name = "label2";
+            label2.Size = new Size(58, 15);
+            label2.TabIndex = 10;
+            label2.Text = "Summary";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(559, 14);
+            label3.Name = "label3";
+            label3.Size = new Size(88, 15);
+            label3.TabIndex = 11;
+            label3.Text = "Topics Covered";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(835, 14);
+            label5.Name = "label5";
+            label5.Size = new Size(111, 15);
+            label5.TabIndex = 13;
+            label5.Text = "Topics Not Covered";
+            // 
+            // BtnClassifyTopics
+            // 
+            BtnClassifyTopics.Location = new Point(432, 404);
+            BtnClassifyTopics.Name = "BtnClassifyTopics";
+            BtnClassifyTopics.Size = new Size(107, 23);
+            BtnClassifyTopics.TabIndex = 14;
+            BtnClassifyTopics.Text = "&Classify Topics";
+            BtnClassifyTopics.UseVisualStyleBackColor = true;
+            BtnClassifyTopics.Click += BtnClassifyTopics_Click;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1331, 450);
-            Controls.Add(RtbCategorization);
+            ClientSize = new Size(1331, 875);
+            Controls.Add(BtnClassifyTopics);
+            Controls.Add(label5);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(LbxNotCovered);
+            Controls.Add(LbxWellCovered);
             Controls.Add(BtnProcessTranscript);
             Controls.Add(label1);
             Controls.Add(RtbTranscript);
-            Controls.Add(RtbInput);
-            Controls.Add(BtnSend);
             Controls.Add(RtbMeetingReport);
             Name = "FrmMain";
             Text = "A3";
@@ -120,12 +156,17 @@
         #endregion
 
         private RichTextBox RtbMeetingReport;
-        private Button BtnSend;
-        private RichTextBox RtbInput;
         private RichTextBox RtbTranscript;
         private Label label1;
         private Button BtnProcessTranscript;
-        private RichTextBox RtbCategorization;
+        private ListBox LbxWellCovered;
+        private ListBox LbxSlightlyCovered;
+        private ListBox LbxNotCovered;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private Button BtnClassifyTopics;
     }
 
 }

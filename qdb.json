@@ -1,0 +1,175 @@
+[
+  {
+    "topicName": "Well Architected Framework",
+    "questions": [
+      "In the solution presented, did you run into any challenges or issues, and if so, how did you address them?",
+      "How does your solution architecture ensure cost optimization for cloud resources?",
+      "How do you ensure that your solution is designed for high performance and responsiveness?",
+      "How do you incorporate security best practices in the AI solutions you provide?",
+      "Can you describe your approach to identity and access management for AI resources within Azure?",
+      "What is your process for reviewing and optimizing AI solutions on Azure on an ongoing basis?"
+    ]
+  },
+  {
+    "topicName": "Azure AI Vision",
+    "questions": [
+      "What is your process for reviewing and optimizing AI solutions on Azure on an ongoing basis?",
+      "Can you describe a specific scenario in which you utilized Azure AI Vision for object detection, and how you managed to adapt the model to recognize less common objects?",
+      "What was the most challenging image recognition problem you solved using Azure AI Vision and how did you overcome it?",
+      "In your past projects, how did you handle large datasets for training Azure AI Vision models, and what tools did you use to streamline this process?",
+      "How would you handle a scenario where the image data is very blurry or noisy and difficult for even a human to decipher?"
+    ]
+  },
+  {
+    "topicName": "Azure AI Speech",
+    "questions": [
+      "Could you provide an example of a custom voice model you developed using Azure AI Speech and the steps you took to improve its accuracy?",
+      "Describe a project where you integrated Azure AI Speech to transcribe and analyze live audio streams. What challenges did you face and how were they resolved? (Common Challenges; PII Detection, Speaker identification and dialects)",
+      "How have you implemented a challenging scenario such as noise reduction or echo cancellation in a project using Azure AI Speech?",
+      "Do you have experience with deploying Azure AI Speech services in multilingual environments, and if so, how did you ensure language accuracy?",
+      "In what ways have you customized the Azure AI Speech service for a unique industry application, and what were the outcomes?",
+      "How did you approach a project that required Text-to-Speech with a custom neural voice and address any Responsible AI issues?"
+    ]
+  },
+  {
+    "topicName": "Azure AI Language",
+    "questions": [
+      "Please share an example of how you utilized Azure AI Language for sentiment analysis and the impact it had on the customer's business.",
+      "How have you leveraged Azure AI Language for text classification in a complex industry scenario, and what were the results?",
+      "Can you discuss a time when you used Azure AI Language to extract information from unstructured text, and how you ensured the accuracy of the extraction?",
+      "What is your approach to leveraging Azure AI Language models for industry-specific jargon and terminology?",
+      "Describe a project where you integrated Azure AI Language with other Azure services to enhance its capabilities. What additional services did you use and why?"
+    ]
+  },
+  {
+    "topicName": "Azure AI Translator",
+    "questions": [
+      "Can you give an example of a time when you customized the Azure AI Translator for a niche dialect, and what was the process?",
+      "Describe a project where you used Azure AI Translator to facilitate real-time communication between users speaking different languages. What were the main challenges?",
+      "How did you ensure the technical accuracy of translations in a legal or medical context using Azure AI Translator?",
+      "In what ways have you integrated Azure AI Translator with other applications or services, and what benefits did this bring to the project?",
+      "What steps did you take to handle large-scale batch translations using Azure AI Translator, and how did you measure the quality of translations?"
+    ]
+  },
+  {
+    "topicName": "Azure OpenAI Service",
+    "questions": [
+      "Please provide an example of how you implemented a solution using Azure OpenAI Service to generate human-like text responses. How did you train and fine-tune the model?",
+      "How did you address ethical considerations and potential biases in a project that involved Azure OpenAI Service?",
+      "Can you discuss a project where Azure OpenAI Service was used for creative content generation? What was the feedback from end-users?",
+      "In what scenario have you utilized the Azure OpenAI Service to improve customer service, and what metrics did you use to evaluate its success?",
+      "What challenges have you faced in integrating Azure OpenAI Service with existing systems, and how did you ensure seamless functionality?",
+      "What are some different factors you need to consider to optimize the cost of the customer's Azure OpenAI application?"
+    ]
+  },
+  {
+    "topicName": "Azure AI Search",
+    "questions": [
+      "Describe a scenario where you improved data discoverability using Azure AI Search and the impact on the user experience.",
+      "How have you tailored Azure AI Search to work effectively with domain-specific content, and what indexing strategies did you employ?",
+      "What are some of the advanced query capabilities you have implemented in Azure AI Search, and how did they enhance the search functionality?",
+      "Can you give an example of how you've used AI enrichment to augment search capabilities in Azure AI Search?",
+      "In what ways have you optimized the performance and scalability of Azure AI Search for a high-traffic application?"
+    ]
+  },
+  {
+    "topicName": "Azure AI Document Intelligence",
+    "questions": [
+      "Please describe a project in which you utilized Azure AI Document Intelligence to automate data extraction from various document types. How did you ensure the system's accuracy and efficiency?",
+      "How did you implement a solution using Azure AI Document Intelligence for processing handwritten documents, and what were the unique challenges faced?",
+      "Can you give an example of how you integrated Azure AI Document Intelligence with other Azure services to enhance document processing?",
+      "What techniques did you use to train Azure AI Document Intelligence models to understand complex or poorly structured documents?",
+      "How do you handle version control and updates in document processing models to ensure they adapt to new document formats?"
+    ]
+  },
+  {
+    "topicName": "Azure Content Safety",
+    "questions": [
+      "Can you share an experience where you implemented Azure Content Safety to moderate user-generated content, and how you balanced automation with manual review processes?",
+      "How have you utilized Azure Content Safety for real-time content moderation, and what measures did you take to minimize false positives/negatives?",
+      "Describe a project where you customized the Azure Content Safety policies to align with specific cultural or regional sensitivities.",
+      "In what ways have you used Azure Content Safety to protect against harmful or inappropriate content in a children's online environment?",
+      "How do you keep up with the evolving nature of inappropriate content and continually update the Azure Content Safety filters?"
+    ]
+  },
+  {
+    "topicName": "Machine Learning Studio",
+    "questions": [
+      "Describe a complex machine learning workflow that you designed and implemented using Azure Machine Learning Studio. How did it benefit the client?",
+      "How have you used the visual drag-and-drop interface of Azure Machine Learning Studio to enable non-technical users to build and deploy models?",
+      "Can you give an example of a project where you used Azure Machine Learning Studio for custom model development? What challenges did you face in data preparation and model training?",
+      "What experience do you have with deploying web services directly from Azure Machine Learning Studio, and how did you ensure their scalability and security?",
+      "How do you approach the experimentation and model management features within Azure Machine Learning Studio to streamline the model development lifecycle?"
+    ]
+  },
+  {
+    "topicName": "Model Catalog",
+    "questions": [
+      "How do you ensure that the models in Azure Machine Learning Model Catalog are kept up-to-date and relevant to current industry needs?",
+      "Can you describe a scenario where you used the Azure Machine Learning Model Catalog to speed up the deployment of an AI solution?",
+      "What strategies do you use to manage and track model versions within the Azure Machine Learning Model Catalog effectively?",
+      "How have you leveraged the shared model feature within Azure Machine Learning Model Catalog to enhance collaboration across different teams?",
+      "Describe how you implemented role-based permissions to secure model access within the Azure Machine Learning Model Catalog."
+    ]
+  },
+  {
+    "topicName": "Prompt Flow",
+    "questions": [
+      "Please share an example of how you have used Prompt Flow to automate and streamline a complex business process.",
+      "What measures do you take to test and validate the effectiveness of an Azure Machine Learning Prompt Flow before full-scale implementation?",
+      "How have you integrated Azure Machine Learning Prompt Flow with other Azure services or external systems for a seamless workflow?",
+      "How do you approach the design of a flow to ensure it captures the necessary steps and conditions for a given task?",
+      "Describe a scenario and the steps you took to refactor a customer's existing code to take advantage of Prompt Flow."
+    ]
+  },
+  {
+    "topicName": "Model as a Service",
+    "questions": [
+      "Describe a project where you implemented Model as a Service (MaaS). What were the main challenges and how did you overcome them?",
+      "How do you ensure the security and privacy of data when providing MaaS to clients, especially in sensitive industries?",
+      "Can you provide an example of how you scaled a MaaS to handle increased demand or data volume?",
+      "What strategies do you use to monitor and maintain the performance of a model in a MaaS setup?",
+      "How have you approached versioning and updating models in a MaaS environment to ensure clients have access to the latest improvements?"
+    ]
+  },
+  {
+    "topicName": "Responsible AI",
+    "questions": [
+      "How do you incorporate ethical considerations into your AI projects, and can you give an example of how this was implemented in a past project?",
+      "What frameworks or guidelines do you follow to ensure the development of responsible AI solutions?",
+      "Can you describe how you address data bias and ensure fairness in the AI models you develop?",
+      "How do you ensure transparency and explainability in the AI solutions you implement for clients?",
+      "Describe a time when you had to modify an AI project to better align with responsible AI practices. What changes were made, and what was the outcome?"
+    ]
+  },
+  {
+    "topicName": "MLOps/LLMOps",
+    "questions": [
+      "What experience do you have with setting up automated pipelines for machine learning model deployment, and how do you ensure they are efficient and reliable?",
+      "How do you manage continuous integration and delivery (CI/CD) for machine learning projects, and what tools do you use?",
+      "Can you discuss a time when you had to troubleshoot a model performance issue in production? How did you identify and resolve the issue?",
+      "How do you approach monitoring and logging for machine learning models in production to ensure optimal performance?",
+      "What practices do you employ to ensure reproducibility and version control in machine learning operations?"
+    ]
+  },
+  {
+    "topicName": "Custom Copilots",
+    "questions": [
+      "Describe a project where you developed a custom copilot using Azure AI. What were the custom features, and how did they meet the client's needs?",
+      "How do you ensure that custom copilots remain up-to-date with the latest AI advancements and client requirements?",
+      "Can you discuss the integration of a custom copilot with other enterprise systems or platforms?",
+      "What is your approach to training and maintaining custom copilots to ensure high accuracy and relevancy in their interactions?",
+      "How do you measure the success and impact of a custom copilot on a client's operations?"
+    ]
+  },
+  {
+    "topicName": "Prompt Engineering",
+    "questions": [
+      "Please provide an example of a prompt engineering solution you designed. How did it improve the AI's interaction or output?",
+      "What techniques do you use to refine prompts to achieve more accurate and relevant responses from AI models?",
+      "How have you utilized prompt engineering to overcome limitations in pre-trained AI models?",
+      "Can you discuss how you test and iterate on prompts to ensure the highest quality of AI-generated content?",
+      "In what ways have you incorporated user feedback into the prompt engineering process to enhance the AI system's performance?"
+    ]
+  }
+]

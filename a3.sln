@@ -8,6 +8,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB2005D9-2E78-4324-A0D2-B208B2001030}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		qdb.json = qdb.json
+		sample1-summary.transcript = sample1-summary.transcript
+		sample1.transcript = sample1.transcript
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AgentInstructions", "AgentInstructions", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		A3Classifier.txt = A3Classifier.txt
+		A3Summarizer.txt = A3Summarizer.txt
 	EndProjectSection
 EndProject
 Global

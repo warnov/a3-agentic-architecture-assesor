@@ -1,9 +1,7 @@
 using Azure.AI.Projects;
-using Azure.Core;
 using Azure.Identity;
-using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Threading;
+
 
 
 namespace a3.WinForms
@@ -12,10 +10,15 @@ namespace a3.WinForms
     {
 
         private AgentsClient _boss;
-        readonly string _summarizerAgentId = "asst_k80IAjP2A9TQ5YMGX5xwG3eu";
-        readonly string _classificatorAgentId = "asst_6uvZ689eeHu3aUig5yGEs7CL";
+        private string? _meetingReport;
+        private static readonly char[] _separator = ['\n'];
+        private static Topic[]? _qDb;
+        readonly string _summarizerAgentId = "asst_KfT1Tmy8zaD0mD4BBtZgdWRA";
+        readonly string _classifierAgentId = "asst_DKccmkl4sfvQBEEb2KQUyDgO";
+        readonly string _questionerAgentId = "asst_rFetlCBHEwUSFn6L9ZSlfYDN";
+
         readonly DefaultAzureCredential _credential;
-        
+
 
 
 
@@ -25,9 +28,9 @@ namespace a3.WinForms
 
 
             InitializeComponent();
+            InitializeQuestions();
 
-            
-            
+
             var connectionString = "eastus.api.azureml.ms;e6940c2c-db8f-4bc5-8ba1-7cf9ebf3ba8b;RG_A3;ai-proj-a3";
             _credential = new DefaultAzureCredential();
             _boss = new AgentsClient(connectionString, _credential);
@@ -35,124 +38,115 @@ namespace a3.WinForms
 
         }
 
-
-
-        private async void BtnSend_Click(object sender, EventArgs e)
+        private static void InitializeQuestions()
         {
-            //await Process();
+            var jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qdb.json");
+            var json = File.ReadAllText(jsonFilePath);
+            _qDb = JsonSerializer.Deserialize<Topic[]>(json);
         }
 
-      
 
 
         private async void BtnProcessTranscript_Click(object sender, EventArgs e)
         {
             //If no transcript, return
             var transcript = RtbTranscript.Text;
-            if(string.IsNullOrEmpty(transcript))
+            if (string.IsNullOrEmpty(transcript))
                 return;
 
+            _meetingReport = await Utilities.NewThreadAndResponse(_boss, _summarizerAgentId, transcript);
+            RtbMeetingReport.Text = _meetingReport;
+            //await ClassifyContent(_meetingReport);
 
-            //Create a thread to work with
-            AgentThread thread = await _boss.CreateThreadAsync();
+        }
 
 
-            // Add transcript to the thread
-            await _boss.CreateMessageAsync(thread.Id, MessageRole.User, transcript);
-
-            // Run the agent
-            ThreadRun run = await _boss.CreateRunAsync(thread.Id, _summarizerAgentId);
-
-            // Wait for the run to complete
-            do
+        private async void LbxWellCovered_Click(object sender, EventArgs e)
+        {
+            // Get the selected item
+            var selectedValue = LbxWellCovered.SelectedValue?.ToString();
+            if (selectedValue != null)
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(500));
-                run = await _boss.GetRunAsync(thread.Id, run.Id);
-            }
-            while (run.Status == RunStatus.Queued
-            || run.Status == RunStatus.InProgress);
+                //Get the questions related to this item, from _qDB
 
 
-            // Retrieve messages
-            var messages = await _boss.GetMessagesAsync(thread.Id);
 
-            // Get the response message
-            var firstMessage = messages.Value.First();
-            if (firstMessage == null)
-            {
-                MessageBox.Show("No messages found.");
-                return;
-            }
-            var content = firstMessage.ContentItems[0];
-            if (content is MessageTextContent textContent)
-            {
-                var report = textContent.Text;
-                RtbMeetingReport.AppendText(report);
-                ClassifyContent(report);
-            }
-            else
-            {
-                MessageBox.Show("No text content found.");
+                var unansweredQuestionsBlock = await Utilities.NewThreadAndResponse(_boss, _questionerAgentId, _meetingReport);
+                var unansweredQuestions = unansweredQuestionsBlock.Split(_separator);
             }
         }
 
-        private async void ClassifyContent(string report)
+
+        private async Task ClassifyContent(string? report)
         {
-            //Create a thread to work with
-            AgentThread thread = await _boss.CreateThreadAsync();
 
-
-            // Add meeting report to the thread
-            await _boss.CreateMessageAsync(thread.Id, MessageRole.User, report);
-
-            // Run the agent
-            ThreadRun run = await _boss.CreateRunAsync(thread.Id, _classificatorAgentId);
-
-
-            // Wait for the run to complete
-            do
+            if (string.IsNullOrEmpty(report))
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(500));
-                run = await _boss.GetRunAsync(thread.Id, run.Id);
-            }
-            while (run.Status == RunStatus.Queued
-            || run.Status == RunStatus.InProgress);
-
-
-            // Retrieve messages
-            var messages = await _boss.GetMessagesAsync(thread.Id);
-
-            // Get the response message
-            var firstMessage = messages.Value.First();
-            if (firstMessage == null)
-            {
-                MessageBox.Show("No messages found.");
+                MessageBox.Show("No report to classify");
                 return;
             }
-            var content = firstMessage.ContentItems[0];
-            if (content is MessageTextContent textContent)
+
+            //Categorizing
+            string categorization;
+            int attempts = 0;
+            do
             {
-                var categorization = textContent.Text;
-                //Remove first and last line from categorization
-                var lines = categorization.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length > 2)
-                {
-                    categorization = string.Join(Environment.NewLine, lines.Skip(1).SkipLast(1));
-                }
-                else
-                {
-                    categorization = string.Empty;
-                }
-                //Convert categorization json to an array of Workload
-                var workloads = JsonSerializer.Deserialize<Workload[]>(categorization);
-                //Show the json representing the workloads in the RtbCategorization
-                RtbCategorization.AppendText(JsonSerializer.Serialize(workloads, new JsonSerializerOptions { WriteIndented = true }));
-                
+                await Task.Delay(1000);
+                categorization = await Utilities.NewThreadAndResponse(_boss, _classifierAgentId, report);
+                attempts++;
+            }
+            while (!categorization.StartsWith("```json") && attempts < 5);
+            if (attempts > 5)
+            {
+                MessageBox.Show("Unable to categorize");
+                return;
+            }
+
+
+            //Remove first and last line from categorization
+            var lines = categorization.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+            if (lines.Length > 2)
+            {
+                categorization = string.Join(Environment.NewLine, lines.Skip(1).SkipLast(1));
             }
             else
             {
-                MessageBox.Show("No text content found.");
+                categorization = string.Empty;
             }
+            //Convert categorization json to an array of Workload
+            Workload[]? workloads = null;
+            try
+            {
+                workloads = JsonSerializer.Deserialize<Workload[]>(categorization);
+            }
+            catch
+            {
+                MessageBox.Show($"Unable to get JSON: {categorization.Substring(0, 100)}");
+            }
+
+            if (workloads != null)
+            {
+                var wellCoveredWorkloads = workloads.Where(w => w.Covering >= 1).ToList();
+                LbxWellCovered.Items.Clear();
+                foreach (var workload in wellCoveredWorkloads)
+                {
+                    LbxWellCovered.Items.Add(workload.Name);
+                }
+
+
+                var noCoveredWorkloads = workloads.Where(w => w.Covering < 1).ToList();
+                LbxNotCovered.Items.Clear();
+                foreach (var workload in noCoveredWorkloads)
+                {
+                    LbxNotCovered.Items.Add(workload.Name);
+                }
+            }
+
+        }
+
+        private async void BtnClassifyTopics_Click(object sender, EventArgs e)
+        {
+            await ClassifyContent(_meetingReport);
         }
     }
 }
