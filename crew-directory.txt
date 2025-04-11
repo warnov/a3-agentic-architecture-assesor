@@ -1,0 +1,3 @@
+Well Architected Framework:asst_iKP8GQpJYGVapkt6PhtjBk16
+Azure AI Vision:asst_iKP8GQpJYGVapkt6PhtjBk17
+Azure AI Speech:asst_iKP8GQpJYGVapkt6PhtjBk18

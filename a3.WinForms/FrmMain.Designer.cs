@@ -38,6 +38,8 @@
             label3 = new Label();
             label5 = new Label();
             BtnClassifyTopics = new Button();
+            label6 = new Label();
+            RtbExpertOpinion = new RichTextBox();
             SuspendLayout();
             // 
             // RtbMeetingReport
@@ -85,6 +87,8 @@
             LbxWellCovered.Size = new Size(221, 334);
             LbxWellCovered.TabIndex = 7;
             LbxWellCovered.Click += LbxWellCovered_Click;
+            LbxWellCovered.SelectedValueChanged += LbxWellCovered_SelectedValueChanged;
+            LbxWellCovered.DoubleClick += LbxWellCovered_DoubleClick;
             // 
             // LbxNotCovered
             // 
@@ -94,6 +98,7 @@
             LbxNotCovered.Name = "LbxNotCovered";
             LbxNotCovered.Size = new Size(249, 334);
             LbxNotCovered.TabIndex = 9;
+            LbxNotCovered.DoubleClick += LbxNotCovered_DoubleClick;
             // 
             // label2
             // 
@@ -132,11 +137,30 @@
             BtnClassifyTopics.UseVisualStyleBackColor = true;
             BtnClassifyTopics.Click += BtnClassifyTopics_Click;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(12, 442);
+            label6.Name = "label6";
+            label6.Size = new Size(85, 15);
+            label6.TabIndex = 16;
+            label6.Text = "Expert Opinion";
+            // 
+            // RtbExpertOpinion
+            // 
+            RtbExpertOpinion.Location = new Point(12, 460);
+            RtbExpertOpinion.Name = "RtbExpertOpinion";
+            RtbExpertOpinion.Size = new Size(768, 341);
+            RtbExpertOpinion.TabIndex = 15;
+            RtbExpertOpinion.Text = "";
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1331, 875);
+            Controls.Add(label6);
+            Controls.Add(RtbExpertOpinion);
             Controls.Add(BtnClassifyTopics);
             Controls.Add(label5);
             Controls.Add(label3);
@@ -167,6 +191,8 @@
         private Label label4;
         private Label label5;
         private Button BtnClassifyTopics;
+        private Label label6;
+        private RichTextBox RtbExpertOpinion;
     }
 
 }

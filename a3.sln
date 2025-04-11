@@ -9,14 +9,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		qdb.json = qdb.json
+		crew-directory.txt = crew-directory.txt
 		sample1-summary.transcript = sample1-summary.transcript
 		sample1.transcript = sample1.transcript
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AgentInstructions", "AgentInstructions", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		A3Classifier.txt = A3Classifier.txt
-		A3Summarizer.txt = A3Summarizer.txt
+		A3Classifier.Instructions = A3Classifier.Instructions
+		A3Summarizer.Instructions = A3Summarizer.Instructions
+		A3ClassifierAndExplainer.Instructions = A3ClassifierAndExplainer.Instructions
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XCrew", "XCrew", "{F532315E-D293-463C-AFC7-DDC61CCA8136}"
+	ProjectSection(SolutionItems) = preProject
+		A3WAFXpert.Instructions = A3WAFXpert.Instructions
 	EndProjectSection
 EndProject
 Global
@@ -32,6 +39,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F532315E-D293-463C-AFC7-DDC61CCA8136} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89AECA5D-0D90-4C94-9E26-A1585160E9DD}

@@ -16,9 +16,10 @@ namespace a3.WinForms
         readonly string _summarizerAgentId = "asst_KfT1Tmy8zaD0mD4BBtZgdWRA";
         readonly string _classifierAgentId = "asst_DKccmkl4sfvQBEEb2KQUyDgO";
         readonly string _questionerAgentId = "asst_rFetlCBHEwUSFn6L9ZSlfYDN";
+        Dictionary<string, string> _crew = new Dictionary<string, string>();
 
         readonly DefaultAzureCredential _credential;
-
+        string? _currentExpert;
 
 
 
@@ -28,7 +29,8 @@ namespace a3.WinForms
 
 
             InitializeComponent();
-            InitializeQuestions();
+            HireCrew();
+            //InitializeQuestions();
 
 
             var connectionString = "eastus.api.azureml.ms;e6940c2c-db8f-4bc5-8ba1-7cf9ebf3ba8b;RG_A3;ai-proj-a3";
@@ -36,6 +38,36 @@ namespace a3.WinForms
             _boss = new AgentsClient(connectionString, _credential);
 
 
+        }
+
+        private void HireCrew()
+        {
+            var crewDirectoryFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crew-directory.txt");
+            var txtDirectory = File.ReadAllText(crewDirectoryFilePath);
+            if (string.IsNullOrEmpty(txtDirectory))
+            {
+                MessageBox.Show("No crew directory found");
+                return;
+            }
+
+            _crew = [];
+
+            //Read each line and split by colon. The first part is the agent specialty, the second part is the agent id. With them, fill the _crew dictionary
+            var lines = txtDirectory.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var parts = line.Split(':');
+                if (parts.Length == 2)
+                {
+                    var specialty = parts[0].Trim();
+                    var agentId = parts[1].Trim();
+                    _crew.Add(specialty, agentId);
+                }
+                else
+                {
+                    MessageBox.Show($"Invalid line in crew directory: {line}");
+                }
+            }
         }
 
         private static void InitializeQuestions()
@@ -67,40 +99,41 @@ namespace a3.WinForms
             var selectedValue = LbxWellCovered.SelectedValue?.ToString();
             if (selectedValue != null)
             {
-                //Get the questions related to this item, from _qDB
+                CallExpert(selectedValue);
 
-
-
-                var unansweredQuestionsBlock = await Utilities.NewThreadAndResponse(_boss, _questionerAgentId, _meetingReport);
-                var unansweredQuestions = unansweredQuestionsBlock.Split(_separator);
             }
         }
 
+        private async void CallExpert(string selectedValue)
+        {
+            //Get the expert of the selected value
+            var expert = _crew.FirstOrDefault(x => x.Key == selectedValue);
+            if (expert.Value == null)
+            {
+                MessageBox.Show($"No expert found for {selectedValue}");
+                return;
+            }
+            //Call the expert
+            var expertId = expert.Value;
+            RtbExpertOpinion.Text = await Utilities.NewThreadAndResponse(_boss, expertId, _meetingReport);
+        }
 
-        private async Task ClassifyContent(string? report)
+        private async Task ClassifyContent()
         {
 
-            if (string.IsNullOrEmpty(report))
+            if (string.IsNullOrEmpty(_meetingReport = string.IsNullOrEmpty(_meetingReport) ? RtbMeetingReport.Text : _meetingReport))
             {
                 MessageBox.Show("No report to classify");
                 return;
             }
 
+
             //Categorizing
             string categorization;
-            int attempts = 0;
-            do
-            {
-                await Task.Delay(1000);
-                categorization = await Utilities.NewThreadAndResponse(_boss, _classifierAgentId, report);
-                attempts++;
-            }
-            while (!categorization.StartsWith("```json") && attempts < 5);
-            if (attempts > 5)
-            {
-                MessageBox.Show("Unable to categorize");
-                return;
-            }
+            
+            await Task.Delay(1000);
+            categorization = await Utilities.NewThreadAndResponse(_boss, _classifierAgentId, _meetingReport);
+            
 
 
             //Remove first and last line from categorization
@@ -146,7 +179,29 @@ namespace a3.WinForms
 
         private async void BtnClassifyTopics_Click(object sender, EventArgs e)
         {
-            await ClassifyContent(_meetingReport);
+            await ClassifyContent();
+        }
+
+        private void LbxWellCovered_SelectedValueChanged(object sender, EventArgs e)
+        {
+            _currentExpert = LbxWellCovered.SelectedItem?.ToString();
+
+        }
+
+        private void LbxWellCovered_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LbxNotCovered_DoubleClick(object sender, EventArgs e)
+        {
+            //Get the selected value
+            var selectedValue = LbxNotCovered.SelectedItem?.ToString();
+            //Call the expert
+            if (selectedValue != null)
+            {
+                CallExpert(selectedValue);
+            }
         }
     }
 }
