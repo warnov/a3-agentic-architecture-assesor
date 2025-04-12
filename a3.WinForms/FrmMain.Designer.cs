@@ -86,8 +86,6 @@
             LbxWellCovered.Name = "LbxWellCovered";
             LbxWellCovered.Size = new Size(221, 334);
             LbxWellCovered.TabIndex = 7;
-            LbxWellCovered.Click += LbxWellCovered_Click;
-            LbxWellCovered.SelectedValueChanged += LbxWellCovered_SelectedValueChanged;
             LbxWellCovered.DoubleClick += LbxWellCovered_DoubleClick;
             // 
             // LbxNotCovered

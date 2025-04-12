@@ -4,6 +4,7 @@ namespace a3.WinForms
 {
     internal static class Utilities
     {
+        private static readonly char[] _separator = ['\n'];
         public static async Task<string> NewThreadAndResponse(AgentsClient agentBoss, string agentId, string? requestContent)
         {
 
@@ -63,6 +64,36 @@ namespace a3.WinForms
         {
             var messages = await agentsBoss.GetMessagesAsync(threadId);
             return messages.Value.Count();
+        }
+
+        public static Dictionary<string,string>? HireCrew()
+        {
+            var crewDirectoryFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crew-directory.txt");
+            var txtDirectory = File.ReadAllText(crewDirectoryFilePath);
+            if (string.IsNullOrEmpty(txtDirectory))
+            {
+                return null;
+            }
+
+            Dictionary<string,string>crew = [];
+
+            //Read each line and split by colon. The first part is the agent specialty, the second part is the agent id. With them, fill the _crew dictionary
+            var lines = txtDirectory.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var parts = line.Split(':');
+                if (parts.Length == 2)
+                {
+                    var specialty = parts[0].Trim();
+                    var agentId = parts[1].Trim();
+                    crew.Add(specialty, agentId);
+                }
+                else
+                {
+                    MessageBox.Show($"Invalid line in crew directory: {line}");
+                }
+            }
+            return crew;
         }
     }
 }

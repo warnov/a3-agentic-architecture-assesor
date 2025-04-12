@@ -9,17 +9,18 @@ namespace a3.WinForms
     public partial class FrmMain : Form
     {
 
+        #region Initialization
         private AgentsClient _boss;
         private string? _meetingReport;
         private static readonly char[] _separator = ['\n'];
-        private static Topic[]? _qDb;
         readonly string _summarizerAgentId = "asst_KfT1Tmy8zaD0mD4BBtZgdWRA";
         readonly string _classifierAgentId = "asst_DKccmkl4sfvQBEEb2KQUyDgO";
-        readonly string _questionerAgentId = "asst_rFetlCBHEwUSFn6L9ZSlfYDN";
-        Dictionary<string, string> _crew = new Dictionary<string, string>();
+        readonly Dictionary<string, string>? _crew;
+        readonly Dictionary<string, string> _expertOpinions;
 
-        readonly DefaultAzureCredential _credential;
-        string? _currentExpert;
+
+        private readonly DefaultAzureCredential _credential;
+        private string? _currentExpert;
 
 
 
@@ -29,53 +30,20 @@ namespace a3.WinForms
 
 
             InitializeComponent();
-            HireCrew();
+            _crew = Utilities.HireCrew();
             //InitializeQuestions();
 
 
             var connectionString = "eastus.api.azureml.ms;e6940c2c-db8f-4bc5-8ba1-7cf9ebf3ba8b;RG_A3;ai-proj-a3";
             _credential = new DefaultAzureCredential();
             _boss = new AgentsClient(connectionString, _credential);
-
+            _expertOpinions = [];
 
         }
+        #endregion
 
-        private void HireCrew()
-        {
-            var crewDirectoryFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crew-directory.txt");
-            var txtDirectory = File.ReadAllText(crewDirectoryFilePath);
-            if (string.IsNullOrEmpty(txtDirectory))
-            {
-                MessageBox.Show("No crew directory found");
-                return;
-            }
 
-            _crew = [];
 
-            //Read each line and split by colon. The first part is the agent specialty, the second part is the agent id. With them, fill the _crew dictionary
-            var lines = txtDirectory.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var line in lines)
-            {
-                var parts = line.Split(':');
-                if (parts.Length == 2)
-                {
-                    var specialty = parts[0].Trim();
-                    var agentId = parts[1].Trim();
-                    _crew.Add(specialty, agentId);
-                }
-                else
-                {
-                    MessageBox.Show($"Invalid line in crew directory: {line}");
-                }
-            }
-        }
-
-        private static void InitializeQuestions()
-        {
-            var jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qdb.json");
-            var json = File.ReadAllText(jsonFilePath);
-            _qDb = JsonSerializer.Deserialize<Topic[]>(json);
-        }
 
 
 
@@ -93,18 +61,46 @@ namespace a3.WinForms
         }
 
 
-        private async void LbxWellCovered_Click(object sender, EventArgs e)
+        private async void BtnClassifyTopics_Click(object sender, EventArgs e)
+        {
+            await ClassifyContent();
+        }
+
+
+        private async void LbxWellCovered_DoubleClick(object sender, EventArgs e)
         {
             // Get the selected item
             var selectedValue = LbxWellCovered.SelectedValue?.ToString();
+            await GetOpinion(selectedValue);
+
+        }
+
+        private async void LbxNotCovered_DoubleClick(object sender, EventArgs e)
+        {
+            //Get the selected value
+            var selectedValue = LbxNotCovered.SelectedItem?.ToString();
+            await GetOpinion(selectedValue);
+        }
+
+
+
+
+
+
+        private async Task GetOpinion(string? selectedValue)
+        {
             if (selectedValue != null)
             {
-                CallExpert(selectedValue);
-
+                //Verify if this expert opinion is already in the dictionary
+                if (_expertOpinions.TryGetValue(selectedValue, out string? value))
+                {
+                    RtbExpertOpinion.Text = value;
+                }
+                await CallExpert(selectedValue);
             }
         }
 
-        private async void CallExpert(string selectedValue)
+        private async Task CallExpert(string selectedValue)
         {
             //Get the expert of the selected value
             var expert = _crew.FirstOrDefault(x => x.Key == selectedValue);
@@ -115,7 +111,14 @@ namespace a3.WinForms
             }
             //Call the expert
             var expertId = expert.Value;
-            RtbExpertOpinion.Text = await Utilities.NewThreadAndResponse(_boss, expertId, _meetingReport);
+            var expertOpinion = await Utilities.NewThreadAndResponse(_boss, expertId, _meetingReport);
+            //Add the expert opinion to the dictionary
+            if (!_expertOpinions.TryAdd(selectedValue, expertOpinion))
+            {
+                _expertOpinions[selectedValue] = expertOpinion;
+            }
+            //Display the expert opinion
+            RtbExpertOpinion.Text = expertOpinion;
         }
 
         private async Task ClassifyContent()
@@ -130,10 +133,10 @@ namespace a3.WinForms
 
             //Categorizing
             string categorization;
-            
+
             await Task.Delay(1000);
             categorization = await Utilities.NewThreadAndResponse(_boss, _classifierAgentId, _meetingReport);
-            
+
 
 
             //Remove first and last line from categorization
@@ -177,31 +180,9 @@ namespace a3.WinForms
 
         }
 
-        private async void BtnClassifyTopics_Click(object sender, EventArgs e)
-        {
-            await ClassifyContent();
-        }
-
-        private void LbxWellCovered_SelectedValueChanged(object sender, EventArgs e)
-        {
-            _currentExpert = LbxWellCovered.SelectedItem?.ToString();
-
-        }
-
-        private void LbxWellCovered_DoubleClick(object sender, EventArgs e)
+        private void FrmMain_Load(object sender, EventArgs e)
         {
 
-        }
-
-        private void LbxNotCovered_DoubleClick(object sender, EventArgs e)
-        {
-            //Get the selected value
-            var selectedValue = LbxNotCovered.SelectedItem?.ToString();
-            //Call the expert
-            if (selectedValue != null)
-            {
-                CallExpert(selectedValue);
-            }
         }
     }
 }
