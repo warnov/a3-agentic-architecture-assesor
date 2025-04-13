@@ -23,11 +23,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AgentInstructions", "AgentI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XCrew", "XCrew", "{F532315E-D293-463C-AFC7-DDC61CCA8136}"
 	ProjectSection(SolutionItems) = preProject
-		A3AISpeechX.Instructions = A3AISpeechX.Instructions
 		A3AILanguajeXpert.Instructions = A3AILanguajeXpert.Instructions
-		A3WAFXpert.Instructions = A3WAFXpert.Instructions
+		A3AISpeechX.Instructions = A3AISpeechX.Instructions
 		A3AIVisionXpert.Instructions = A3AIVisionXpert.Instructions
+		A3WAFXpert.Instructions = A3WAFXpert.Instructions
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "a3.AgentCreatorConsole", "a3.AgentCreatorConsole\a3.AgentCreatorConsole.csproj", "{0CB0F439-DB4A-49C5-BDB6-92599F89A729}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{4E76385E-C049-4E20-A1BF-E8A6BB468916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E76385E-C049-4E20-A1BF-E8A6BB468916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E76385E-C049-4E20-A1BF-E8A6BB468916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CB0F439-DB4A-49C5-BDB6-92599F89A729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CB0F439-DB4A-49C5-BDB6-92599F89A729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CB0F439-DB4A-49C5-BDB6-92599F89A729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CB0F439-DB4A-49C5-BDB6-92599F89A729}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

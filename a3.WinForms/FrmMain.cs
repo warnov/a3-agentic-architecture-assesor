@@ -10,7 +10,7 @@ namespace a3.WinForms
     {
 
         #region Initialization
-        private AgentsClient _boss;
+        private readonly AgentsClient _boss;
         private string? _meetingReport;
         private static readonly char[] _separator = ['\n'];
         readonly string _summarizerAgentId = "asst_KfT1Tmy8zaD0mD4BBtZgdWRA";
