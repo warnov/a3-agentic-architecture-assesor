@@ -13,8 +13,6 @@ namespace a3.WinForms
         private readonly AgentsClient _boss;
         private string? _meetingReport;
         private static readonly char[] _separator = ['\n'];
-        readonly string _summarizerAgentId = "asst_KfT1Tmy8zaD0mD4BBtZgdWRA";
-        readonly string _classifierAgentId = "asst_DKccmkl4sfvQBEEb2KQUyDgO";
         readonly Dictionary<string, string>? _crew;
         readonly Dictionary<string, string> _expertOpinions;
 
@@ -34,7 +32,7 @@ namespace a3.WinForms
             //InitializeQuestions();
 
 
-            var connectionString = "eastus.api.azureml.ms;e6940c2c-db8f-4bc5-8ba1-7cf9ebf3ba8b;RG_A3;ai-proj-a3";
+            string? connectionString = Environment.GetEnvironmentVariable("a3-aif-cs");
             _credential = new DefaultAzureCredential();
             _boss = new AgentsClient(connectionString, _credential);
             _expertOpinions = [];
@@ -49,12 +47,21 @@ namespace a3.WinForms
 
         private async void BtnProcessTranscript_Click(object sender, EventArgs e)
         {
+            //If no crew, return
+            if (_crew == null)
+            {
+                MessageBox.Show("No crew found");
+                return;
+            }
+
             //If no transcript, return
             var transcript = RtbTranscript.Text;
             if (string.IsNullOrEmpty(transcript))
                 return;
 
-            _meetingReport = await Utilities.NewThreadAndResponse(_boss, _summarizerAgentId, transcript);
+
+
+            _meetingReport = await Utilities.NewThreadAndResponse(_boss, _crew["Summarizer"], transcript);
             RtbMeetingReport.Text = _meetingReport;
             //await ClassifyContent(_meetingReport);
 
@@ -69,14 +76,17 @@ namespace a3.WinForms
 
         private async void LbxWellCovered_DoubleClick(object sender, EventArgs e)
         {
+            RtbExpertOpinion.Clear();
             // Get the selected item
-            var selectedValue = LbxWellCovered.SelectedValue?.ToString();
+            var selectedValue = LbxWellCovered.SelectedItem?.ToString();
             await GetOpinion(selectedValue);
 
         }
 
         private async void LbxNotCovered_DoubleClick(object sender, EventArgs e)
         {
+
+            RtbExpertOpinion.Clear();
             //Get the selected value
             var selectedValue = LbxNotCovered.SelectedItem?.ToString();
             await GetOpinion(selectedValue);
@@ -94,14 +104,23 @@ namespace a3.WinForms
                 //Verify if this expert opinion is already in the dictionary
                 if (_expertOpinions.TryGetValue(selectedValue, out string? value))
                 {
-                    RtbExpertOpinion.Text = value;
+                    FillOpinion(selectedValue, value);                    
                 }
                 await CallExpert(selectedValue);
             }
         }
 
+
+
         private async Task CallExpert(string selectedValue)
         {
+            //if no crew, return
+            if (_crew == null)
+            {
+                MessageBox.Show("No crew found");
+                return;
+            }
+
             //Get the expert of the selected value
             var expert = _crew.FirstOrDefault(x => x.Key == selectedValue);
             if (expert.Value == null)
@@ -117,12 +136,18 @@ namespace a3.WinForms
             {
                 _expertOpinions[selectedValue] = expertOpinion;
             }
-            //Display the expert opinion
-            RtbExpertOpinion.Text = expertOpinion;
+            FillOpinion(selectedValue, expertOpinion);
+
         }
 
         private async Task ClassifyContent()
         {
+            //If no crew, return
+            if (_crew == null)
+            {
+                MessageBox.Show("No crew found");
+                return;
+            }
 
             if (string.IsNullOrEmpty(_meetingReport = string.IsNullOrEmpty(_meetingReport) ? RtbMeetingReport.Text : _meetingReport))
             {
@@ -134,8 +159,8 @@ namespace a3.WinForms
             //Categorizing
             string categorization;
 
-            await Task.Delay(1000);
-            categorization = await Utilities.NewThreadAndResponse(_boss, _classifierAgentId, _meetingReport);
+
+            categorization = await Utilities.NewThreadAndResponse(_boss, _crew["Classifier"], _meetingReport);
 
 
 
@@ -157,7 +182,7 @@ namespace a3.WinForms
             }
             catch
             {
-                MessageBox.Show($"Unable to get JSON: {categorization.Substring(0, 100)}");
+                MessageBox.Show($"Unable to get JSON: {categorization[..100]}");
             }
 
             if (workloads != null)
@@ -180,9 +205,11 @@ namespace a3.WinForms
 
         }
 
-        private void FrmMain_Load(object sender, EventArgs e)
-        {
 
+        private void FillOpinion(string topic, string opinion)
+        {
+            //Display the expert opinion
+            RtbExpertOpinion.Text = $"{topic}:\n========================\n\n{opinion}";
         }
     }
 }

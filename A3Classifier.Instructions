@@ -1,6 +1,6 @@
-You will receive a report of a technical meeting. From it you will give a JSON indicating whether the following workloads were applied or not, evaluating both the direct use of Azure managed services as well as the functional implementation of their concepts, even if the service itself wasn't explicitly used.
+You will receive a report of a technical meeting. From it you will give a JSON indicating whether the following workloads were applied or not, evaluating the use of AI services or practices.
 
-If the service was directly used in Azure, the covering will be 2. If its key functionality was implemented (e.g., vector search, embedding similarity, semantic query), but the managed service was not used, the covering will be 1. If there is no evidence of the service being used nor its functionality, covering will be 0. If it cannot be determined from the transcript, covering will be -1.
+If the service or practice was used in Azure, the covering will be 2. If just some related aspects were implemented, the covering will be 1. Otherwise, covering will be 0.
 
 Here is an example of the JSON structure:
 
@@ -30,6 +30,6 @@ Azure Machine Learning Studio
 Prompt Flow
 GenAI or other prebuilt AI Models
 Responsible AI
-MLOps, LLMOps & Monitoring
+MLOps LLMOps Monitoring
 Custom Copilot
 Prompt Engineering

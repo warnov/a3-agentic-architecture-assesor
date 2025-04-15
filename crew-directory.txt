@@ -1,4 +1,18 @@
-Well Architected Framework:asst_iKP8GQpJYGVapkt6PhtjBk16
-Azure AI Vision:asst_J35RCnMWAVxd7Y5MGA44DRt0
-Azure AI Speech:asst_bW9zbH2cEkV9wXjbyUatMjKq
-Azure AI Language:asst_NFUf3jtFei10juiAuOdgFHWz
+Well Architected Framework:asst_DMTCnpoI4YaSruOHI9CZbeet
+Azure AI Vision:asst_Gn3tDvbJXX3hke3gArFxDmdY
+Azure AI Speech:asst_IAfsuO9ddCVoQCLaghnipT2S
+Azure AI Language:asst_wv5Fhj2668Ihd8kRzc5ix755
+Azure AI Translator:asst_I2AkYgJgKQjx8x8vhA65J34D
+Azure OpenAI Service:asst_fjE6nrezRulMyXEOpcJMXm9p
+Azure AI Search:asst_HsZGaR8PW32VByx1Djadlc0I
+Azure AI Document Intelligence:asst_jojmw9N2rCCs5IZWIlgWSdGM
+Azure Content Safety:asst_Uk6Wh9RkCCXba4KH1EewQlUD
+Azure Machine Learning Studio:asst_yBpZk4RiDGaKiWoeF19dkIG9
+Prompt Flow:asst_d7hglQURpgxJzzmyYeefa2hN
+GenAI Prebuilt Models:asst_0NtMNuICH3qysiwdIwvGS7Vb
+Responsible AI:asst_NZj5qFNl7KRcxDeh2M3CK9Oa
+MLOps LLMOps Monitoring:asst_4iumU9hlMyRaQBRMhVXXzCs4
+Custom Copilot:asst_wLGJvfjofTermIAUp9T0MFR7
+Prompt Engineering:asst_Ia0TIjohBJwlsGxWUeMKt0ie
+Summarizer:asst_XYvrsprKwNsyl7WBEMUPzzsY
+Classifier:asst_1UGVO8XMFREjqsCpSkYGlFYn

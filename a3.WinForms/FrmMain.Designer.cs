@@ -94,7 +94,7 @@
             LbxNotCovered.ItemHeight = 15;
             LbxNotCovered.Location = new Point(835, 32);
             LbxNotCovered.Name = "LbxNotCovered";
-            LbxNotCovered.Size = new Size(249, 334);
+            LbxNotCovered.Size = new Size(234, 334);
             LbxNotCovered.TabIndex = 9;
             LbxNotCovered.DoubleClick += LbxNotCovered_DoubleClick;
             // 
